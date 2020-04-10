@@ -10,7 +10,7 @@ class ConnectionManager extends Manager {
         $passwordVerify = $req->fetch();
         if (password_verify($Password, $passwordVerify['password'])){
     
-            return true;
+            return $Pseudo;
     
         } else {
     

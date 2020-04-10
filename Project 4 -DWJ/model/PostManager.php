@@ -22,11 +22,11 @@ class PostManager extends Manager{
         return $post;
     }
 
-    public function publishPost($article){
+    public function publishPost($article, $title){
 
         $db = $this->dbConnexion();
-        $req = $db->prepare('INSERT INTO articles (publication_date, content, title) VALUES (NOW(), ?, "billet")');
-        $req->execute(array($article));
+        $req = $db->prepare('INSERT INTO articles (publication_date, content, title) VALUES (NOW(), ?, ?)');
+        $req->execute(array($article, $title));
 
     }
 }

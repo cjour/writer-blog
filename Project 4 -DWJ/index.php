@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require 'controller/frontend.php'; 
 
@@ -70,9 +71,17 @@ try {
         } elseif ($_GET['action'] == 'verifyMyLogin/admin/write') {
             write();
         } elseif ($_GET['action'] == 'verifyMyLogin/admin/write/publish') {
-            if(isset($_POST['Article']) && !empty($_POST['Article'])){
-                $article= $_POST['Article'];
-                publish($article);
+            if(isset($_POST['Article']) && ($_POST['Title'])){
+                if(!empty($_POST['Article']) && !empty($_POST['Title'])){
+
+                    $article= $_POST['Article'];
+                    $title = $_POST['Title'];
+                    publish($article, $title);
+                } else {
+
+                    throw new Exception("Vous n'avez pas rempli tous les champs.");
+                }
+                
             } else {
 
                 throw new Exception("Oups, vous n'avez rien écrit.");

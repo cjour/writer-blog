@@ -27,13 +27,9 @@ function logMeIn(){
 function verifyMyLogIn($Pseudo, $Password){
 
     $connectionManager = new ConnectionManager();
-    $login = $connectionManager->LogIn($Pseudo, $Password);
-    $user_statut = $connectionManager->verifyMyStatut($Pseudo);
-    if ($user_statut === 2){
-        require('view/view_admin/backend_interface_home.php');            
-    } else {
-        require('view/view_users/loggedIn.php');
-    }
+    $_SESSION['pseudo'] = $connectionManager->LogIn($Pseudo, $Password);
+    $_SESSION['statut'] = $connectionManager->verifyMyStatut($Pseudo);
+    require('view/view_users/loggedIn.php');
 }
 
 function listMyPosts(){
@@ -68,20 +64,23 @@ function addAComment($postId, $auteur, $commentaire){
 
 function write(){
 
-    require('view\view_admin\backend_interface_posts_management.php');
+    require('view\view_users\backend_interface_posts_management.php');
 }
 
-function publish($article){
+function publish($article, $title){
 
     $postManager = new PostManager();
-    $postManager->publishPost($article);
+    $postManager->publishPost($article, $title);
     $posts = $postManager->getPosts();
-    require('view/view_admin/articleJustPublish.php');
+    require('view/view_users/articleJustPublish.php');
 }
 
 function read(){
 
-    listMyPosts();//trouver un moyen de conserver la session.
+    $postManager = new PostManager();
+    $posts = $postManager->getPosts();
+    require('view\view_users\indexView.php');
+
 }
 
 function update(){
