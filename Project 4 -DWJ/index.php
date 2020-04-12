@@ -4,13 +4,81 @@ session_start();
 require 'controller/frontend.php'; 
 
 try {   
+    var_dump($_SESSION['statut']);  
+    if (isset($_SESSION['statut'])){
+        if(!empty($_SESSION['statut'])) {
+            if($_SESSION['statut'] === 1) {
 
-    if (isset($_GET['action'])){
+                //loggedIn normal users fonctionnality
+                if($_GET['action'] == 'getAPost'){
+
+                    if (isset($_GET['id']) && $_GET['id'] > 0){
+
+                        getAPost();
+        
+                    } else {
+        
+                        throw new Exception ("aucun identifiant de billet envoyé via l'URL");
+                    }
+
+                } elseif ($_GET['action'] == 'addComment') {//a revoir
+                       
+                    if (isset($_GET['id']) && $_GET['id'] > 0){
+        
+                        if(!empty($_POST['auteur']) && !empty($_POST['commentaire'])){
+                            $postId = $_GET['id'];
+                            $pseudo = $_POST['auteur'];
+                            $commentaires = $_POST['commentaire'];
+                            addAComment($postId, $pseudo, $commentaires);   
+        
+                        } else {
+        
+                            throw new Exception ("impossible d'ajouter votre commentaire, vous n'avez pas renseigné de Pseudo et/ou de commentaire");
+                            
+                        }
+                    }
+                }
+                //loggedIn admin users fonctionnality
+            } else if ($_SESSION['statut'] === 2){
+                if(isset($_GET['action'])){
+                    if($_GET['action'] == 'readAPost'){
+
+                        getAPost();
+
+                    } else if ($_GET['action'] == 'writeAPost'){  
+                        write();   
+                    } else if ($_GET['action'] == 'updateAPost'){
+                        if (isset($_GET['id']) && $_GET['id'] > 0){
+                            $postId = $_GET['id'];
+                            update($postId);
+            
+                        } else {
+            
+                            throw new Exception ("aucun identifiant de billet envoyé via l'URL");
+                        }
+            
+                        
+                    } else if (($_GET['action'] == 'deleteAPost')){
+                        if (isset($_GET['id']) && $_GET['id'] > 0){
+                            $postId = $_GET['id'];
+                            delete($postId);
+            
+                        } else {
+            
+                            throw new Exception ("aucun identifiant de billet envoyé via l'URL");
+                        }
+                    }
+                } else {
+                    listMyPosts();
+                }
+            } 
+        }
+    }elseif (isset($_GET['action'])){
 
         if ($_GET['action'] == 'listMyPosts') {
 
             listMyPosts();
-
+            
         } elseif ($_GET['action'] == 'signMeIn') {
 
             signMeIn();
@@ -68,31 +136,6 @@ try {
                 throw new Exception ("Vous n'avez pas rempli les champs correctement.");
             }
                     
-        } elseif ($_GET['action'] == 'verifyMyLogin/admin/write') {
-            write();
-        } elseif ($_GET['action'] == 'verifyMyLogin/admin/write/publish') {
-            if(isset($_POST['Article']) && ($_POST['Title'])){
-                if(!empty($_POST['Article']) && !empty($_POST['Title'])){
-
-                    $article= $_POST['Article'];
-                    $title = $_POST['Title'];
-                    publish($article, $title);
-                } else {
-
-                    throw new Exception("Vous n'avez pas rempli tous les champs.");
-                }
-                
-            } else {
-
-                throw new Exception("Oups, vous n'avez rien écrit.");
-            }
-               
-        } elseif ($_GET['action'] == 'verifyMyLogin/admin/read') {
-            read();
-        } elseif ($_GET['action'] == 'verifyMyLogin/admin/update') {
-            update();
-        } elseif ($_GET['action'] == 'verifyMyLogin/admin/delete') {
-            delete();
         } elseif ($_GET['action'] == 'getAPost') {
 
             if (isset($_GET['id']) && $_GET['id'] > 0){
@@ -104,32 +147,12 @@ try {
                 throw new Exception ("aucun identifiant de billet envoyé via l'URL");
             }
 
-        } elseif ($_GET['action'] == 'addComment') {//a revoir
-            
-            if (isset($_GET['id']) && $_GET['id'] > 0){
-
-                if(!empty($_POST['auteur']) && !empty($_POST['commentaire'])){
-                    $postId = $_GET['id'];
-                    $pseudo = $_POST['auteur'];
-                    $commentaires = $_POST['commentaire'];
-                    addAComment($postId, $pseudo, $commentaires);   
-
-                } else {
-
-                    throw new Exception ("impossible d'ajouter votre commentaire, vous n'avez pas renseigné de Pseudo et/ou de commentaire");
-                    
-                }
-            }
-        } else {
-            
-            throw new Exception ("aucun identifiant de billet envoyé via l'URL");   
         }
-
     } else {
-
         listMyPosts();    
-    }
-
+    }        
+     
+    
 } catch(Exception $e) {
 
     $errorMessage =  "Erreur : " . $e->getMessage();

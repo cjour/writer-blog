@@ -29,7 +29,7 @@ function verifyMyLogIn($Pseudo, $Password){
     $connectionManager = new ConnectionManager();
     $_SESSION['pseudo'] = $connectionManager->LogIn($Pseudo, $Password);
     $_SESSION['statut'] = $connectionManager->verifyMyStatut($Pseudo);
-    require('view/view_users/loggedIn.php');
+    require ('view/view_users/indexView.php');
 }
 
 function listMyPosts(){
@@ -53,8 +53,7 @@ function addAComment($postId, $auteur, $commentaire){
     $commentManager = new CommentManager();
     $affectedLines = $commentManager->postAComment($postId, $auteur, $commentaire);
     if ($affectedLines === false){
-        throw new Exception ("impossible d'ajouter votre commentaire");
-        
+        throw new Exception ("impossible d'ajouter votre commentaire");      
         
     } else {
 
@@ -75,21 +74,24 @@ function publish($article, $title){
     require('view/view_users/articleJustPublish.php');
 }
 
-function read(){
+function read($postId){
 
     $postManager = new PostManager();
-    $posts = $postManager->getPosts();
+    $posts = $postManager->getPosts($_GET['id']);
     require('view\view_users\indexView.php');
 
 }
 
-function update(){
+function update($postId){
 
-    
-    require('view\view_admin\backend_interface_posts_management.php');
+    $postManager = new PostManager();
+    $posts = $postManager->getPosts($_GET['id']);
+    require('view\view_users\backend_interface_posts_management.php');
 }
 
-function delete(){
+function delete($postId){
 
-    require('view\view_admin\backend_interface_posts_management.php');
+    $postManager = new PostManager();
+    $posts = $postManager->deletePost($_GET['id']);
+
 }
