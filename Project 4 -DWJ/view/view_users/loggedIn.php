@@ -32,10 +32,10 @@ $header_btn = ob_get_clean();
 ob_start();
 ?>
 
-<a href="index.php?action=verifyMyLogin/admin/write">Ecrire un article.</a><br>
-<a href="index.php?action=verifyMyLogin/admin/read">Lire un article.</a><br>
-<a href="index.php?action=verifyMyLogin/admin/update">Modifier un article.</a><br>
-<a href="index.php?action=verifyMyLogin/admin/delete">Supprimer un article.</a><br>
+<a href="index.php?action=writeAPost">Ecrire un article.</a><br>
+<a href="index.php?action=readAPost">Lire un article.</a><br>
+<a href="index.php?action=updateAPost">Modifier un article.</a><br>
+<a href="index.php?action=deleteAPost">Supprimer un article.</a><br>
 
 <?php $content = ob_get_clean(); 
 require 'template.php';
