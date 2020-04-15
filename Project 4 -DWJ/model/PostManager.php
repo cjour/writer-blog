@@ -30,11 +30,30 @@ class PostManager extends Manager{
 
     }
 
+    public function update($postId){
+
+        $db = $this->dbConnexion();
+        $req = $db->prepare('SELECT publication_date, content, title FROM articles WHERE id = ?');
+        $req->execute(array($postId));
+
+    }
+
+    public function updatePost($article, $title, $postId){
+
+        $db = $this->dbConnexion();
+        $req = $db->prepare('UPDATE articles SET publication_date = NOW(), content = ?, title = ? WHERE id = ?');
+        $req->execute(array($article, $title, $postId));
+
+    }
+
     public function deletePost($postId){
 
         $db = $this->dbConnexion();
+        $req = $db->prepare('DELETE FROM comments WHERE id_post=?');
+        $req->execute(array($postId));
         $req = $db->prepare('DELETE FROM articles WHERE id=?');
         $req->execute(array($postId));
+        
 
     }
 }

@@ -1,44 +1,116 @@
 
-<?php $title = htmlspecialchars($post['title']) ?>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <h1>Billet pour l'Alaska</h1>
-        <button class="btn btn-info"><a class="Btn_link" href="index.php?action=signMeIn">Sign in</a></button>
-        <button class="btn btn-info"><a class="Btn_link" href="index.php?action=logMeIn">Log in</a></button>
-    </nav>
-<?php $header = ob_get_clean();
+<?php $title = ($post['title']);
 ob_start();
-?>
-    <p><a href="index.php">Retour à la liste des billets</a></p>
-
-    <div class="news">
-        <h3>
-            <?= htmlspecialchars($post['title']) ?>
-            <em>le <?= $post['publication_date'] ?></em>
-        </h3>
+if (isset($_SESSION['statut'])){
+    if($_SESSION['statut'] == 1){ ?>
+        <?= 'Bienvenue ' . $_SESSION['pseudo'] ?>
+        <?php $header_h1 = ob_get_clean();?>
+            <a href="index.php?action=listMyPosts"><button type="button" class="btn btn-info mr-4">Home</button></a>
+            <button class="btn btn-info"><a class="Btn_link" href="index.php?action=logout">Logout</a></button>
         
-        <p>
-            <?= nl2br(htmlspecialchars($post['content'])) ?>
-        </p>
-    </div>
+        <?php $header_btn = ob_get_clean();
+        ob_start();
+        ?>
+            <div class="news">
+                <h3>
+                    <?= ($post['title']) ?>
+                    <em>le <?= $post['publication_date'] ?></em>
+                </h3>
+                
+                <p>
+                    <?= nl2br(($post['content'])) ?>
+                </p>
+            </div>
 
-    <h2>Commentaires</h2>
-    <form action="index.php?action=addComment&amp;id=<?=$post['id']?>" 
-    method = "post">
-        <input type="text" name="auteur" placeholder="Pseudo"/><br>
-        <input type="text" name="commentaire" placeholder="Votre commentaire"/><br>
-        <input type="submit"/>
-    
-    </form>
-    <?php
-    while ($comment = $commentaires->fetch())
-    {
-    ?>
-        <p><strong><?= htmlspecialchars($comment['auteur']) ?></strong> le <?= $comment['date_commentaire'] ?></p>
-        <p><?= nl2br(htmlspecialchars($comment['commentaire'])) ?></p>
-    <?php
+            <h2>Commentaires</h2>
+            <form action="index.php?action=addComment&amp;id=<?=$post['id']?>" 
+            method = "post">
+                <input type="text" name="auteur" placeholder="Pseudo" value="<?= $_SESSION['pseudo'] ?>"/><br>
+                <textarea name="commentaire" id="text_area_commentaire" cols="30" rows="10">Votre commentaire</textarea><br>
+                <input type="submit"/>
+            
+            </form>
+            <?php
+            while ($comment = $commentaires->fetch())
+            {
+            ?>
+                <p><strong><?= ($comment['pseudo']) ?></strong> le <?= $comment['comment_date'] ?></p>
+                <p><?= nl2br(($comment['comment'])) ?></p>
+                <button class="btn btn-info"><a class="Btn_link" href="index.php?action=signalComment&amp;id=<?=$comment['id']?>">Signaler le commentaire</a></button>
+            <?php
+            }
+            ?>
+                
+        <?php $content = ob_get_clean();
+    } else if ($_SESSION['statut'] == 2) {
+        ?>
+        <?= 'Dashboard' . $_SESSION['pseudo'] ?>
+        <?php $header_h1 = ob_get_clean();?>
+
+            <a href="index.php?action=listMyPosts"><button type="button" class="btn btn-info mr-4">Home</button></a> 
+            
+        
+        <?php $header_btn = ob_get_clean();
+        ob_start();
+        ?>
+            <div class="news">
+                <h3>
+                    <?= ($post['title']) ?>
+                    <em>le <?= $post['publication_date'] ?></em>
+                </h3>
+                
+                <p>
+                    <?= nl2br(($post['content'])) ?>
+                </p>
+            </div>
+            <?php
+            while ($comment = $commentaires->fetch())
+            {
+            ?>
+                <p><strong><?= ($comment['pseudo']) ?></strong> le <?= $comment['comment_date'] ?></p>
+                <p><?= nl2br(($comment['comment'])) ?></p>
+                <button class="btn btn-info"><a class="Btn_link" href="index.php?action=deleteComment&amp;id=<?=$comment['id']?>">Supprimer le commentaire</a></button>
+
+            <?php
+            }
+            ?>
+                
+        <?php $content = ob_get_clean();
     }
+} else {
     ?>
-        
-<?php $content = ob_get_clean();
+    <?= 'Billet simple pour l\'Alaska' ?>
+    <?php $header_h1 = ob_get_clean();?>
+
+        <a href="index.php?action=listMyPosts"><button type="button" class="btn btn-info mr-4">Home</button></a> 
+        <a class="Btn_link" href="index.php?action=signMeIn"><button class="btn btn-info">Sign in</button></a>
+        <a class="Btn_link" href="index.php?action=logMeIn"><button class="btn btn-info">Log in</button></a>
+    
+    <?php $header_btn = ob_get_clean();
+    ob_start();
+    ?>
+        <div class="news">
+            <h3>
+                <?= ($post['title']) ?>
+                <em>le <?= $post['publication_date'] ?></em>
+            </h3>
+            
+            <p>
+                <?= nl2br(($post['content'])) ?>
+            </p>
+        </div>
+        <?php
+        while ($comment = $commentaires->fetch())
+        {
+        ?>
+            <p><strong><?= ($comment['pseudo']) ?></strong> le <?= $comment['comment_date'] ?></p>
+            <p><?= nl2br(($comment['comment'])) ?></p>
+            
+
+        <?php
+        }
+    $content = ob_get_clean();    
+    
+}
 require 'template.php';
 ?>

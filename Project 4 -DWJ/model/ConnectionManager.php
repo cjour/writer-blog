@@ -58,4 +58,14 @@ class ConnectionManager extends Manager {
         return (intval($statut['id_statut']));
 
     }
+
+    public function getMyAuthorId($Pseudo){
+
+        $db = $this->dbConnexion();
+        $req = $db->prepare('SELECT id FROM users_login WHERE pseudo = ?');
+        $req->execute(array($Pseudo));
+        $id = $req->fetch(PDO::FETCH_ASSOC);
+        return (intval($id['id']));
+
+    }
 }

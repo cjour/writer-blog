@@ -3,7 +3,7 @@
 Billet pour l'Alaska      
     
 <?php $header_h1 = ob_get_clean(); ?>
-
+<a href="index.php?action=listMyPosts"><button type="button" class="btn btn-info mr-4">Home</button></a>
 <button class="btn btn-info"><a class="Btn_link" href="index.php?action=signMeIn">Sign in</a></button>
 <button class="btn btn-info"><a class="Btn_link" href="index.php?action=logMeIn">Log in</a></button>
 

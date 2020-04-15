@@ -4,7 +4,7 @@
 Billet pour l'Alaska      
     
 <?php $header_h1 = ob_get_clean(); ?>
-
+<a href="index.php?action=listMyPosts"><button type="button" class="btn btn-info mr-4">Home</button></a>
 <button class="btn btn-info"><a class="Btn_link" href="index.php?action=signMeIn">Sign in</a></button>
 <button class="btn btn-info"><a class="Btn_link" href="index.php?action=logMeIn">Log in</a></button>
 
@@ -18,13 +18,10 @@ ob_start();
         <h1>LOGIN</h1>
 
         <input type="text" name= "Pseudo" placeholder="Pseudo" required>
-        <input type="text" name= "Password" placeholder="Password" required>
+        <input type="password" name= "Password" placeholder="Password" required>
 
         <input type="submit" value="LOGIN">
-        <div>
-            <input type="checkbox">
-            <label for="">Remember me</label>
-        </div>              
+              
     </form>
 </section>
 
