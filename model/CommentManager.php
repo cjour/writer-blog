@@ -8,9 +8,10 @@ class CommentManager extends Manager{
         $db = $this->dbConnexion();
         $commentaires = $db->prepare('SELECT comments.id AS id, comments.comment AS comment, comments.comments_date AS comment_date, users_login.pseudo AS pseudo 
         FROM comments
-        INNER JOIN users_login 
+        INNER JOIN users_login
         ON comments.id_user = users_login.id
-        WHERE comments.id_post = ? ORDER BY comments_date DESC');
+        WHERE comments.id_post = ? 
+        ORDER BY comments_date DESC');
         $commentaires->execute(array($postId));
     
         return $commentaires;
@@ -40,6 +41,27 @@ class CommentManager extends Manager{
         $affectedLines = $req->execute(array($postId, $id_auteur, $commentaire));
         return $affectedLines;
     
+    }
+
+    function signalAComment($commentId){
+
+        $db = $this->dbConnexion();
+        $req = $db->prepare('UPDATE comments SET signaled_comments = 1 WHERE id = ?');
+        $req->execute(array($commentId));
+
+    }
+
+    public function getSignaledComments(){
+
+        $db = $this->dbConnexion();
+        $comments = $db->query('SELECT comments.id AS id, comments.comment AS comment, comments.comments_date AS comment_date, users_login.pseudo AS pseudo
+        FROM comments
+        INNER JOIN users_login
+        ON comments.id_user = users_login.id
+        WHERE signaled_comments = 1
+        ORDER BY comments_date DESC');
+        
+        return $comments;
     }
 
 }

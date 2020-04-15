@@ -38,6 +38,17 @@ try {
 
                         listMyPosts();
                         
+                    } else if ($_GET['action'] == 'signalComment') {
+                            
+                        if (isset($_GET['id']) && $_GET['id'] > 0){
+        
+                            $commentId = $_GET['id'];
+                            signalComment($commentId);
+
+                        } else {
+
+                            throw new Exception ("Aucun identifiant de commentaire envoyé.");
+                        }
                     } else if ($_GET['action'] == 'logout') {
                         logout();
                     }
@@ -56,11 +67,21 @@ try {
                         $article = $_POST['Article'];
                         $title = $_POST['Title'];
                         publish($article, $title);   
-                    }else if ($_GET['action'] == 'updateAPost'){
+                    } else if ($_GET['action'] == 'update'){
                         if (isset($_GET['id']) && $_GET['id'] > 0){
                             $postId = $_GET['id'];
                             update($postId);
-            
+                        }
+                    } else if ($_GET['action'] == 'updatePost'){
+                        if (isset($_GET['id']) && $_GET['id'] > 0){
+                            $postId = $_GET['id'];
+                            if (!empty($_POST['Article']) && !empty($_POST['Title'])){
+                            $article = $_POST['Article'];
+                            $title = $_POST['Title'];
+                            updatePost($article, $title, $postId);
+                            } else {
+                                throw new Exception ("oups vous avez oublié de remplir le titre ou le contenu");
+                            }
                         } else {
             
                             throw new Exception ("aucun identifiant de billet envoyé via l'URL");
@@ -82,13 +103,17 @@ try {
                             deleteComment($commentId);
                         } else {
             
-                            throw new Exception ("aucun identifiant de billet envoyé via l'URL");
+                            throw new Exception ("aucun identifiant de commentaire envoyé via l'URL");
                         }
                     } else if ($_GET['action'] == 'listMyPosts') {
 
                         listMyPosts();
                         
-                    } else if ($_GET['action'] == 'logout') {
+                    } else if ($_GET['action'] == 'moderateComments') {
+
+                        moderateComments();
+                        
+                    }else if ($_GET['action'] == 'logout') {
                             logout();
                     }
                 } else {
