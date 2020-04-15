@@ -47,6 +47,7 @@ if (isset($_SESSION['statut'])){
             <?php $header_h1 = ob_get_clean(); ?>
                 
                 <a href="index.php?action=writeAPost"><button type="button" class="btn btn-info mr-4">Nouvel article</button></a>
+                <a href="index.php?action=moderateComments"><button type="button" class="btn btn-info mr-4">Modérer les commentaires</button></a>
                 <a href="index.php?action=logout"><button type="button" class="btn btn-info mr-4">Logout</button></a>
 
             <?php
@@ -67,7 +68,7 @@ if (isset($_SESSION['statut'])){
                             <?= nl2br(($data['content'])) ?>
                             <br />
                             <button class="btn btn-info"><a class="Btn_link" href="index.php?action=getAPost&amp;id=<?=$data['id']?>">Lire ce billet</a></button>
-                            <button class="btn btn-info"><a class="Btn_link" href="index.php?action=updateAPost&amp;id=<?=$data['id']?>">Modifier le billet</a></button>
+                            <button class="btn btn-info"><a class="Btn_link" href="index.php?action=update&amp;id=<?=$data['id']?>">Modifier le billet</a></button>
                             <button class="btn btn-info"><a class="Btn_link" href="index.php?action=deleteAPost&amp;id=<?=$data['id']?>">Supprimer le billet</a></button>
                         
                         </p>

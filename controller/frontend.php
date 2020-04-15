@@ -45,7 +45,7 @@ function listMyPosts(){
 function logout(){
 
     session_destroy();
-    require('view/view_users/indexView.php');
+    header('Location:index.php?action=listMyPosts');
 
 }
 
@@ -99,9 +99,18 @@ function update($postId){
     require('view\view_users\backend_interface_posts_management.php');
 }
 
+function updatePost($article, $title, $postId){
+
+    $postManager = new PostManager();
+    $post = $postManager->getPost($postId);
+    $postManager->updatePost($article, $title, $postId);
+    require('view\view_users\backend_interface_posts_management.php');
+}
+
 function delete($postId){
 
     $postManager = new PostManager();
+    $commentManager = new CommentManager();
     $posts = $postManager->deletePost($_GET['id']);
     $posts = $postManager->getPosts();
     require('view/view_users/indexView.php');
@@ -114,4 +123,17 @@ function deleteComment($commentId){
     $comment = $commentManager->deleteComment($commentId);
     $posts = $postManager->getPosts();
     require('view/view_users/indexView.php');
+}
+
+function moderateComments(){
+
+    $commentManager = new CommentManager();
+    $comments = $commentManager->getSignaledComments();
+    require('view/view_users/commentManagementView.php');
+}
+
+function signalComment($commentId){
+
+    $commentManager = new CommentManager();
+    $commentManager->signalAComment($commentId);
 }

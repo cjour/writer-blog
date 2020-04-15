@@ -18,13 +18,10 @@ ob_start();
         <h1>LOGIN</h1>
 
         <input type="text" name= "Pseudo" placeholder="Pseudo" required>
-        <input type="text" name= "Password" placeholder="Password" required>
+        <input type="password" name= "Password" placeholder="Password" required>
 
         <input type="submit" value="LOGIN">
-        <div>
-            <input type="checkbox">
-            <label for="">Remember me</label>
-        </div>              
+              
     </form>
 </section>
 

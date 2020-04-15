@@ -36,6 +36,7 @@ if (isset($_SESSION['statut'])){
             ?>
                 <p><strong><?= ($comment['pseudo']) ?></strong> le <?= $comment['comment_date'] ?></p>
                 <p><?= nl2br(($comment['comment'])) ?></p>
+                <button class="btn btn-info"><a class="Btn_link" href="index.php?action=signalComment&amp;id=<?=$comment['id']?>">Signaler le commentaire</a></button>
             <?php
             }
             ?>

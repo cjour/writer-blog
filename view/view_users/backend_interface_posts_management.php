@@ -12,9 +12,16 @@ ob_start();
 $header_btn = ob_get_clean();
 ob_start();
 ?>
-    <form action="index.php?action=publishAPost" method="post">
-    <input name="Title" type="text" id="title" value="<?php if($_GET['action'] == 'updateAPost' ){echo $post['title'];}?>">
-    <textarea name="Article" id="textarea" cols="30" rows="10"><?php if($_GET['action'] == 'updateAPost' ){echo $post['content'];}?>
+    <form <?php if($_GET['action'] == 'update' ){?>
+        action="index.php?action=updatePost&amp;id=<?=$_GET['id']?>" method="post">
+        <?php } elseif ($_GET['action'] == 'writeAPost') {?>
+        action="index.php?action=publishAPost" method="post">
+            
+        <?php
+        }
+        ?>
+    <input name="Title" type="text" id="title" value="<?php if($_GET['action'] == 'update' ){echo $post['title'];}?>">
+    <textarea name="Article" id="textarea" cols="30" rows="10"><?php if($_GET['action'] == 'update' ){echo $post['content'];}?>
     </textarea>
     <input type="submit" value="Publier">
 </form>
