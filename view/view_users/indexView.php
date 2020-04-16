@@ -1,19 +1,8 @@
 <?php ob_start();
+$title = "Billet simple pour l'Alaska.";
 if (isset($_SESSION['statut'])){
     if(!empty($_SESSION['statut'])){
         if($_SESSION['statut'] === 1){
-            $title = "Billet simple pour l'Alaska.";
-            ?> 
-            
-            <?= "Bienvenue " . $_SESSION['pseudo']?>
-
-            <?php $header_h1 = ob_get_clean(); ?>
-
-            <a href="index.php?action=logout"><button type="button" class="btn btn-info mr-4">Logout</button></a>
-
-            <?php 
-            $header_btn = ob_get_clean(); 
-            ob_start();
             while ($data = $posts->fetch())
             {
             ?>
@@ -27,7 +16,7 @@ if (isset($_SESSION['statut'])){
                 <p>
                     <?= nl2br(($data['content'])) ?>
                     <br />
-                    <button class="btn btn-info"><a class="Btn_link" href="index.php?action=getAPost&amp;id=<?=$data['id']?>">Lire ce billet</a></button>
+                    <a class="Btn_link" href="index.php?action=getAPost&amp;id=<?=$data['id']?>"><button class="btn btn-info">Lire ce billet</button></a>
                 </p>
             </div>
 
@@ -39,19 +28,6 @@ if (isset($_SESSION['statut'])){
 
 
         <?php } else if ($_SESSION['statut'] === 2) { 
-            $title="Dashboard " . $_SESSION['pseudo']
-            ?>
-
-                <a class="navbar-brand" href="#">Dashboard <?= $_SESSION['pseudo'] ?> </a>
-                
-            <?php $header_h1 = ob_get_clean(); ?>
-                
-                <a href="index.php?action=writeAPost"><button type="button" class="btn btn-info mr-4">Nouvel article</button></a>
-                <a href="index.php?action=moderateComments"><button type="button" class="btn btn-info mr-4">Modérer les commentaires</button></a>
-                <a href="index.php?action=logout"><button type="button" class="btn btn-info mr-4">Logout</button></a>
-
-            <?php
-            $header_btn = ob_get_clean();
             ob_start();
             ?>
 
@@ -67,10 +43,9 @@ if (isset($_SESSION['statut'])){
                         <p>
                             <?= nl2br(($data['content'])) ?>
                             <br />
-                            <button class="btn btn-info"><a class="Btn_link" href="index.php?action=getAPost&amp;id=<?=$data['id']?>">Lire ce billet</a></button>
-                            <button class="btn btn-info"><a class="Btn_link" href="index.php?action=update&amp;id=<?=$data['id']?>">Modifier le billet</a></button>
-                            <button class="btn btn-info"><a class="Btn_link" href="index.php?action=deleteAPost&amp;id=<?=$data['id']?>">Supprimer le billet</a></button>
-                        
+                            <a class="Btn_link" href="index.php?action=getAPost&amp;id=<?=$data['id']?>"><button class="btn btn-info">Lire ce billet</button></a>
+                            <a class="Btn_link" href="index.php?action=update&amp;id=<?=$data['id']?>"><button class="btn btn-info">Modifier le billet</button></a>
+                            <a class="Btn_link" href="index.php?action=deleteAPost&amp;id=<?=$data['id']?>"><button class="btn btn-info">Supprimer le billet</button></a>                      
                         </p>
                     </div>
             <?php
@@ -85,18 +60,7 @@ if (isset($_SESSION['statut'])){
 } else {
 
     ob_start();
-    $title = "Billet simple pour l'Alaska."
-    ?>
-
-       <?= 'Billet simple pour l\'Alaska' ?>
-    <?php $header_h1 = ob_get_clean();?>
-            
-        <a class="Btn_link" href="index.php?action=signMeIn"><button class="btn btn-info">Sign in</button></a>
-        <a class="Btn_link" href="index.php?action=logMeIn"><button class="btn btn-info">Log in</button></a>
-
-        
-    <?php $header_btn = ob_get_clean();
-    ob_start();
+    $title = "Billet simple pour l'Alaska.";
 
         while ($data = $posts->fetch())
         {
@@ -110,7 +74,7 @@ if (isset($_SESSION['statut'])){
                 <p>
                     <?= nl2br(($data['content'])) ?>
                     <br />
-                    <button class="btn btn-info"><a class="Btn_link" href="index.php?action=getAPost&amp;id=<?=$data['id']?>">Lire ce billet</a></button>
+                    <a class="Btn_link" href="index.php?action=getAPost&amp;id=<?=$data['id']?>"><button class="btn btn-info">Lire ce billet</button></a>
 
                     
                 </p>

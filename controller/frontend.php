@@ -11,12 +11,21 @@ function signMeIn(){
 
 }
 
-function SignIn($Pseudo, $Email, $Password, $PasswordConfirm){
+function signIn($Pseudo, $Email, $Password, $PasswordConfirm){
 
     $signInManager = new ConnectionManager();
-    $signInManager->verifyMySignIn($Pseudo);
     $signInManager->SignMeIn($Pseudo, $Email, $Password, $PasswordConfirm);
     require('view/view_users/login.php');
+
+}
+
+function verifyPseudoAvailability($Pseudo){
+
+    $signInManager = new ConnectionManager();
+    $PseudoAvailability = $signInManager->verifyPseudoAvailability($Pseudo);
+    var_dump($PseudoAvailability);
+    return $PseudoAvailability;
+    
 }
 
 function logMeIn(){
@@ -24,10 +33,16 @@ function logMeIn(){
     require ('view/view_users/login.php');
 }
 
-function verifyMyLogIn($Pseudo, $Password){
+function verifyMyPassword($Pseudo, $Password){
 
     $connectionManager = new ConnectionManager();
-    $_SESSION['pseudo'] = $connectionManager->LogIn($Pseudo, $Password);
+    return $connectionManager->LogIn($Pseudo, $Password);
+}
+
+function logIn($Pseudo, $Password){
+
+    $connectionManager = new ConnectionManager();
+    $_SESSION['pseudo'] = $Pseudo;
     $_SESSION['statut'] = $connectionManager->verifyMyStatut($Pseudo);
     $_SESSION['id'] = $connectionManager->getMyAuthorId($Pseudo);
     $postManager = new PostManager();
@@ -136,4 +151,12 @@ function signalComment($commentId){
 
     $commentManager = new CommentManager();
     $commentManager->signalAComment($commentId);
+    header('Location:index.php?action=listMyPosts');
+}
+
+function unsignalComment($commentId){
+
+    $commentManager = new CommentManager();
+    $commentManager->unsignalComment($commentId);
+    header('Location:index.php?action=moderateComments');
 }

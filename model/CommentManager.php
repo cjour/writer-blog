@@ -51,6 +51,14 @@ class CommentManager extends Manager{
 
     }
 
+    function unsignalComment($commentId){
+
+        $db = $this->dbConnexion();
+        $req = $db->prepare('UPDATE comments SET signaled_comments = 0 WHERE id = ?');
+        $req->execute(array($commentId));
+
+    }
+
     public function getSignaledComments(){
 
         $db = $this->dbConnexion();

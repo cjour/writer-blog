@@ -2,23 +2,14 @@
 session_start();
 require 'controller/frontend.php'; 
 try {
+    
+
     if (isset($_SESSION['statut'])){
         if(!empty($_SESSION['statut'])) {
             if($_SESSION['statut'] === 1) {
                 if(isset($_GET['action'])){
                     //loggedIn normal users fonctionnality
-                    if ($_GET['action'] == 'getAPost'){
-
-                        if (isset($_GET['id']) && $_GET['id'] > 0){
-
-                            getAPost();
-            
-                        } else {
-            
-                            throw new Exception ("aucun identifiant de billet envoyé via l'URL");
-                        }
-
-                    } elseif ($_GET['action'] == 'addComment') {//a revoir
+                    if ($_GET['action'] == 'addComment') {
                             
                         if (isset($_GET['id']) && $_GET['id'] > 0){
             
@@ -34,10 +25,6 @@ try {
                                 
                             }
                         }
-                    } else if ($_GET['action'] == 'listMyPosts') {
-
-                        listMyPosts();
-                        
                     } else if ($_GET['action'] == 'signalComment') {
                             
                         if (isset($_GET['id']) && $_GET['id'] > 0){
@@ -49,19 +36,13 @@ try {
 
                             throw new Exception ("Aucun identifiant de commentaire envoyé.");
                         }
-                    } else if ($_GET['action'] == 'logout') {
-                        logout();
                     }
                 } else {
                     listMyPosts();
                 } //loggedIn admin users fonctionnality
             } else if ($_SESSION['statut'] === 2){
                 if(isset($_GET['action'])){
-                    if($_GET['action'] == 'getAPost'){
-
-                        getAPost();
-                        
-                    } else if ($_GET['action'] == 'writeAPost'){  
+                    if ($_GET['action'] == 'writeAPost'){  
                         write();   
                     } else if ($_GET['action'] == 'publishAPost'){ 
                         $article = $_POST['Article'];
@@ -105,29 +86,30 @@ try {
             
                             throw new Exception ("aucun identifiant de commentaire envoyé via l'URL");
                         }
-                    } else if ($_GET['action'] == 'listMyPosts') {
-
-                        listMyPosts();
-                        
                     } else if ($_GET['action'] == 'moderateComments') {
 
                         moderateComments();
                         
-                    }else if ($_GET['action'] == 'logout') {
-                            logout();
+                    } else if ($_GET['action'] == 'unsignalComment') {
+                        if (isset($_GET['id']) && $_GET['id'] > 0){
+                            $commentId = $_GET['id'];
+                            unsignalComment($commentId);
+                        } else {
+            
+                            throw new Exception ("aucun identifiant de commentaire envoyé via l'URL");
+                        }
+                        
                     }
                 } else {
                     listMyPosts();
                 }
             } 
         }
-    } elseif (isset($_GET['action'])){
+    } 
+    
+    if (isset($_GET['action'])){
 
-        if ($_GET['action'] == 'listMyPosts') {
-
-            listMyPosts();
-            
-        } elseif ($_GET['action'] == 'signMeIn') {
+        if ($_GET['action'] == 'signMeIn') {
 
             signMeIn();
 
@@ -146,9 +128,16 @@ try {
                     $PasswordConfirm = $_POST['PasswordConfirm'];
 
                     if($Password === $PasswordConfirm){
+                        $PseudoResult = verifyPseudoAvailability($Pseudo);
+                        if ($PseudoResult === 0){
+                            
+                            signIn($Pseudo, $Email, $Password, $PasswordConfirm);
 
-                        SignIn($Pseudo, $Email, $Password, $PasswordConfirm);
+                        } else {
 
+                            throw new Exception ("Pseudo déjà utilisé");
+                        }
+                        
                     } else {
 
                         throw new Exception ("La confirmation de votre mot de passe n'est pas correcte");
@@ -168,10 +157,18 @@ try {
             if(isset($_POST['Pseudo']) && ($_POST['Password'])) {
 
                 if(!empty($_POST['Pseudo']) && !empty($_POST['Password'])){
-                    
+
                         $Pseudo = $_POST['Pseudo'];
                         $Password = $_POST['Password'];
-                        verifyMyLogIn($Pseudo, $Password);
+                        $correctLog = verifyMyPassword($Pseudo, $Password);
+                        if ($correctLog === true){
+
+                            logIn($Pseudo, $Password);
+
+                        } else {
+
+                            throw new Exception("Votre mot de passe est faux. ");
+                        }
 
                 } else {
      
@@ -184,17 +181,16 @@ try {
                 throw new Exception ("Vous n'avez pas rempli les champs correctement.");
             }
                     
-        } elseif ($_GET['action'] == 'getAPost') {
-
-            if (isset($_GET['id']) && $_GET['id'] > 0){
-
-                getAPost();
-
-            } else {
-
-                throw new Exception ("aucun identifiant de billet envoyé via l'URL");
-            }
-
+        } else if ($_GET['action'] == 'logout') {
+            logout();
+        } elseif ($_GET['action'] == 'getAPost'){
+    
+            getAPost();
+            
+        } elseif ($_GET['action'] == 'listMyPosts') {
+    
+            listMyPosts();
+            
         }
     } else {
         listMyPosts();    
