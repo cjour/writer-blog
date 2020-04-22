@@ -7,7 +7,7 @@ class PostManager extends Manager{
     public function getPosts(){
 
         $db = $this->dbConnexion();
-        $req = $db->query('SELECT id, title, content, publication_date FROM articles ORDER BY publication_date DESC');
+        $req = $db->query('SELECT id, title, content, DATE_FORMAT(publication_date, \'%d/%m/%Y à %Hh%i\') AS publication_date FROM articles ORDER BY id DESC');
 
         return $req;
     }
@@ -15,7 +15,7 @@ class PostManager extends Manager{
     public function getPost($postId){
 
         $db = $this->dbConnexion();
-        $req = $db->prepare('SELECT * from articles WHERE id=?');
+        $req = $db->prepare('SELECT id, title, content, DATE_FORMAT(publication_date, \'%d/%m/%Y à %Hh%i\') AS publication_date from articles WHERE id=?');
         $req->execute(array($postId));
         $post = $req->fetch();
         

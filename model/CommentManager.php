@@ -6,7 +6,7 @@ class CommentManager extends Manager{
     public function getComments($postId){
 
         $db = $this->dbConnexion();
-        $commentaires = $db->prepare('SELECT comments.id AS id, comments.comment AS comment, comments.comments_date AS comment_date, users_login.pseudo AS pseudo 
+        $commentaires = $db->prepare('SELECT comments.id AS id, comments.comment AS comment, DATE_FORMAT(comments.comments_date, \'%m/%Y\') AS comment_date, users_login.pseudo AS pseudo 
         FROM comments
         INNER JOIN users_login
         ON comments.id_user = users_login.id
@@ -20,7 +20,7 @@ class CommentManager extends Manager{
     public function getComment($commentId){
 
         $db = $this->dbConnexion();
-        $commentaire = $db->prepare('SELECT comment, comments_date FROM comments WHERE id = ?');
+        $commentaire = $db->prepare('SELECT comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date FROM comments WHERE id = ?');
         $commentaire->execute(array($commentId));
     
         return $commentaire;
@@ -43,7 +43,7 @@ class CommentManager extends Manager{
     
     }
 
-    function signalAComment($commentId){
+    function signalAComment($commentId){//pass an int = 1 into field signaled_comments of comments database
 
         $db = $this->dbConnexion();
         $req = $db->prepare('UPDATE comments SET signaled_comments = 1 WHERE id = ?');
@@ -51,7 +51,7 @@ class CommentManager extends Manager{
 
     }
 
-    function unsignalComment($commentId){
+    function unsignalComment($commentId){//pass an int = 0 into field signaled_comments of comments database
 
         $db = $this->dbConnexion();
         $req = $db->prepare('UPDATE comments SET signaled_comments = 0 WHERE id = ?');

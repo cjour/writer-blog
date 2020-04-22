@@ -23,7 +23,6 @@ function verifyPseudoAvailability($Pseudo){
 
     $signInManager = new ConnectionManager();
     $PseudoAvailability = $signInManager->verifyPseudoAvailability($Pseudo);
-    var_dump($PseudoAvailability);
     return $PseudoAvailability;
     
 }
@@ -76,7 +75,8 @@ function getAPost(){
 function addAComment($postId, $id_auteur, $commentaire){
 
     $commentManager = new CommentManager();
-    $affectedLines = $commentManager->postAComment($postId, $id_auteur, $commentaire);
+    $affectedLines = $commentManager->postAComment($postId, $id_auteur, htmlspecialchars($commentaire));
+
     if ($affectedLines === false){
         throw new Exception ("impossible d'ajouter votre commentaire");      
         
@@ -131,13 +131,12 @@ function delete($postId){
     require('view/view_users/indexView.php');
 }
 
-function deleteComment($commentId){
+function deleteComment($commentId, $postId){
 
     $commentManager = new CommentManager();
     $postManager = new PostManager();
-    $comment = $commentManager->deleteComment($commentId);
-    $posts = $postManager->getPosts();
-    require('view/view_users/indexView.php');
+    $comment = $commentManager->deleteComment($commentId, $postId);
+    header('Location:index.php?action=getAPost&id='. $postId);
 }
 
 function moderateComments(){
@@ -147,11 +146,11 @@ function moderateComments(){
     require('view/view_users/commentManagementView.php');
 }
 
-function signalComment($commentId){
+function signalComment($commentId, $postId){
 
     $commentManager = new CommentManager();
     $commentManager->signalAComment($commentId);
-    header('Location:index.php?action=listMyPosts');
+    header('Location:index.php?action=getAPost&id='. $postId);
 }
 
 function unsignalComment($commentId){
