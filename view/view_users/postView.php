@@ -1,6 +1,4 @@
-
 <?php $title = ($post['title']);
-ob_start();
 if (isset($_SESSION['statut'])){
     if($_SESSION['statut'] == 1){
         ob_start();
@@ -87,7 +85,7 @@ if (isset($_SESSION['statut'])){
                 <h2>
                     <?= ($post['title']) ?><br>
                     <em><i class="fas fa-calendar-alt mr-2"></i><?= "le " . $post['publication_date'] ?></em>
-                </h2><br>
+                </h2><br><br>
                 
                 <p>
                     <?= nl2br(($post['content'])) ?>
@@ -109,7 +107,6 @@ if (isset($_SESSION['statut'])){
         <?php
 
     $content = ob_get_clean();    
-    
 }
 require 'template.php';
 ?>

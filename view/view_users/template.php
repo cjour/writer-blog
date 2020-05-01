@@ -1,4 +1,4 @@
-<?php require 'template_header.php' ?>
+<?php require 'template_header.php'; ?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -9,7 +9,7 @@
       <script src="https://cdn.tiny.cloud/1/ucs2nw21g5qbckjp6ztherjrawbg209q8yrz54oouzhfwvfh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
       <script>
         tinymce.init({
-          selector: '#myContentTextarea',
+          selector: 'myContentTextarea',
           height : 500,
           placeholder :'Exprimez vous ici.',
           plugins: "autosave",
@@ -24,12 +24,10 @@
   </head>
 
   <body>
-      
       <header class="navbar navbar-expand-lg navbar-light bg-light shadow p-3 mb-20 rounded justify-content-between fixed-top ">
           <h1><?= $header_h1 ?></h1>
           <nav><?= $header_btn ?></nav>
       </header>
-    
       <?= $content ?>
       <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

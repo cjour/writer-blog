@@ -88,7 +88,7 @@ function addAComment($postId, $id_auteur, $commentaire){
 
 function write(){
 
-    require('view\view_users\backend_interface_posts_management.php');
+    require('view/view_users/backend_interface_posts_management.php');
 }
 
 function publish($article, $title){
@@ -103,7 +103,7 @@ function read($postId){
 
     $postManager = new PostManager();
     $posts = $postManager->getPosts($_GET['id']);
-    require('view\view_users\indexView.php');
+    require('view/view_users/indexView.php');
 
 }
 
@@ -111,7 +111,7 @@ function update($postId){
 
     $postManager = new PostManager();
     $post = $postManager->getPost($postId);
-    require('view\view_users\backend_interface_posts_management.php');
+    require('view/view_users/backend_interface_posts_management.php');
 }
 
 function updatePost($article, $title, $postId){
@@ -119,7 +119,7 @@ function updatePost($article, $title, $postId){
     $postManager = new PostManager();
     $post = $postManager->getPost($postId);
     $postManager->updatePost($article, $title, $postId);
-    require('view\view_users\backend_interface_posts_management.php');
+    require('view/view_users/backend_interface_posts_management.php');
 }
 
 function delete($postId){

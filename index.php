@@ -122,7 +122,11 @@ try {
     
                                 throw new Exception ("Aucun identifiant de commentaire envoyé.");
                             }
-                        }
+                        } else {
+
+                            listMyPosts();
+                    
+                            }
                     } else {
                         listMyPosts();
                     } //loggedIn admin users fonctionnality

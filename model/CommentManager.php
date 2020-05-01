@@ -37,13 +37,13 @@ class CommentManager extends Manager{
     public function postAComment($postId, $id_auteur, $commentaire){
     
         $db = $this->dbConnexion();
-        $req = $db->prepare('INSERT INTO comments(id_post, id_user, comment, comments_date, signaled_comments) VALUES(?, ?, ?, NOW(), 0)');//id user faut faire une jointure de table.
+        $req = $db->prepare('INSERT INTO comments(id_post, id_user, comment, comments_date, signaled_comments) VALUES(?, ?, ?, NOW(), 0)');
         $affectedLines = $req->execute(array($postId, $id_auteur, $commentaire));
         return $affectedLines;
     
     }
 
-    function signalAComment($commentId){//pass an int = 1 into field signaled_comments of comments database
+    public function signalAComment($commentId){//pass an int = 1 into field signaled_comments of comments database
 
         $db = $this->dbConnexion();
         $req = $db->prepare('UPDATE comments SET signaled_comments = 1 WHERE id = ?');
@@ -51,7 +51,7 @@ class CommentManager extends Manager{
 
     }
 
-    function unsignalComment($commentId){//pass an int = 0 into field signaled_comments of comments database
+    public function unsignalComment($commentId){//pass an int = 0 into field signaled_comments of comments database
 
         $db = $this->dbConnexion();
         $req = $db->prepare('UPDATE comments SET signaled_comments = 0 WHERE id = ?');

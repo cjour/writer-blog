@@ -1,7 +1,7 @@
 <?php
-$title = "Administration des commentaires";
 ob_start();
-?>      
+$title = "Administration des commentaires";
+?>
     <section class="row d-flex flex-column align-items-center">
     <?php
     while ($comment = $comments->fetch())
@@ -19,5 +19,5 @@ ob_start();
     $comments -> closeCursor();
 
 $content = ob_get_clean();
-require ('template.php');
+require 'template.php';
 ?>

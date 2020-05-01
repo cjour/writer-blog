@@ -1,8 +1,8 @@
-<?php ob_start();
-$title = "Billet simple pour l'Alaska.";
+<?php $title = "Billet simple pour l'Alaska.";
 if (isset($_SESSION['statut'])){
     if(!empty($_SESSION['statut'])){
         if($_SESSION['statut'] === 1){
+        ob_start();
 ?>
         <section class="container-fluid mt-15 "> 
         <div class="row justify-content-around">
@@ -31,9 +31,8 @@ if (isset($_SESSION['statut'])){
             <?php $content = ob_get_clean(); ?>
         
 
-        <?php } else if ($_SESSION['statut'] === 2) { 
-            ob_start();
-            ?>
+        <?php } else if ($_SESSION['statut'] === 2) {
+        ?>
              <section class="container-fluid mt-15"> 
             <div class="row justify-content-around">    
             <?php while ($data = $posts->fetch())
@@ -60,7 +59,8 @@ if (isset($_SESSION['statut'])){
             </div>
             </section>
             <?php    
-            $content = ob_get_clean(); 
+            $content = ob_get_clean(); ?>
+            <?php
         }
     }
 } else {
